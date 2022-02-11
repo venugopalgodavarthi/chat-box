@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {%block content%}
+    <form method="POST" action="{% url 'chat:chatview'%}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="send">
+    </form>
+    {% if res %}
+    <table border="2">
+        <tr><td>cid</td><td>msg</td><td>cimg</td><td>cfile</td> </tr>
+        {% for i in res %}
+        <tr><td>{{i.cid}}</td><td>{{i.msg}}</td>
+            {% if i.cimg  or i.cfile %}
+            <td><img src='{{i.cimg.url}}' height="50" width="50"></td>
+            <td>{{i.cfile}}</td>
+            {% endif %}
+             </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    {%endblock%}
+</body>
+</html>
